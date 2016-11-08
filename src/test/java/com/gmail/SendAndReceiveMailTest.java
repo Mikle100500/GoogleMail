@@ -34,6 +34,5 @@ public class SendAndReceiveMailTest {
 
         gmailPage.navigateToSent();
         gmailPage.assertLetterIsIn("TestGmail");
-
     }
 }
