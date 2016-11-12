@@ -1,4 +1,4 @@
-package com.gmail.config;
+package com.google.gmail.testdata;
 
 /**
  * Created by Mikle on 08.11.2016.
