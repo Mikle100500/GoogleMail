@@ -1,10 +1,8 @@
 package com.google.gmail.pages;
 
 import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 
-import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
@@ -23,7 +21,7 @@ public class GmailPage {
         $("#Passwd").setValue(pass).submit();
     }
 
-    public void sendNewLetter(String address, String subject){
+    public void sendNewLetter(String address, String subject) {
         $(byText("COMPOSE")).click();
         $(By.name("to")).setValue(address);
         $(By.name("subjectbox")).setValue(subject);
@@ -31,24 +29,24 @@ public class GmailPage {
 
     }
 
-    public void refresh(){
+    public void refresh() {
         $("[title='Refresh']").click();
     }
 
-    public void clickInbox(){
+    public void clickInbox() {
         $("[title~='Inbox']").click();
     }
 
-    public void clickSent(){
+    public void clickSent() {
         $(byText("Sent Mail")).click();
     }
 
-    public void assertEmailIsIn(int index, String subject){
+    public void assertEmailIsIn(int index, String subject) {
         emails.get(index).shouldHave(text(subject));
     }
 
-    public void assertOnlyOneExist(String subject){
-        emails.
+    public void assertAnOnlyExist(String subject) {
+        emails.filterBy(text(subject)).shouldHaveSize(1);
     }
 
 }
