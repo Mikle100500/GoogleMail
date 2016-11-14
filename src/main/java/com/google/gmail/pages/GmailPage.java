@@ -3,14 +3,16 @@ package com.google.gmail.pages;
 import com.codeborne.selenide.ElementsCollection;
 import org.openqa.selenium.By;
 
+import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
+import static com.codeborne.selenide.Selectors.byTitle;
 import static com.codeborne.selenide.Selenide.*;
 
 
 public class GmailPage {
 
-    public ElementsCollection emails = $$("tbody .zA");
+    public ElementsCollection emails = $$("[role='main'] .zA");
 
     public void navigateToGmail() {
         open("https://gmail.com");
@@ -21,7 +23,7 @@ public class GmailPage {
         $("#Passwd").setValue(pass).submit();
     }
 
-    public void sendNewLetter(String address, String subject) {
+    public void send(String address, String subject) {
         $(byText("COMPOSE")).click();
         $(By.name("to")).setValue(address);
         $(By.name("subjectbox")).setValue(subject);
@@ -30,7 +32,7 @@ public class GmailPage {
     }
 
     public void refresh() {
-        $("[title='Refresh']").click();
+        $(byTitle("Refresh")).click();
     }
 
     public void clickInbox() {
@@ -38,15 +40,19 @@ public class GmailPage {
     }
 
     public void clickSent() {
-        $(byText("Sent Mail")).click();
+        $(byTitle("Sent Mail")).click();
     }
 
-    public void assertEmailIsIn(int index, String subject) {
+    public void search(String subject){
+        $(By.name("q")).setValue(subject).pressEnter();
+    }
+
+    public void assertEmail(int index, String subject) {
         emails.get(index).shouldHave(text(subject));
     }
 
-    public void assertAnOnlyExist(String subject) {
-        emails.filterBy(text(subject)).shouldHaveSize(1);
+    public void assertIsFirst(int index, String subject) {
+        emails.get(index).$(".y6").shouldHave(exactText(subject));
     }
 
 }

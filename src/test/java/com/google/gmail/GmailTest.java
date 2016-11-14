@@ -1,5 +1,6 @@
 package com.google.gmail;
 
+import com.codeborne.selenide.Configuration;
 import com.google.gmail.pages.GmailPage;
 import org.junit.Test;
 
@@ -8,26 +9,31 @@ import java.util.Calendar;
 import static com.google.gmail.testdata.Config.emailAddress;
 import static com.google.gmail.testdata.Config.password;
 
-public class GmailTest extends BaseTest{
+public class GmailTest {
 
-    private GmailPage gmailPage = new GmailPage();
-    private String subject = String.format("Test Letter: %s", Calendar.getInstance().getTime());
+    {
+        Configuration.timeout = 20000;
+    }
+
+    private GmailPage page = new GmailPage();
 
     @Test
-    public void testSendAndReceiveEmail() {
+    public void testLoginSendReceiveSearch() {
 
-        gmailPage.navigateToGmail();
-        gmailPage.login(emailAddress, password);
-        gmailPage.sendNewLetter(emailAddress, subject);
-        gmailPage.refresh();
+        String subject = String.format("Test Letter: %s", Calendar.getInstance().getTime());
 
-        gmailPage.clickInbox();
-        gmailPage.assertEmailIsIn(0, subject);
+        page.navigateToGmail();
+        page.login(emailAddress, password);
+        page.send(emailAddress, subject);
+        page.refresh();
 
-        gmailPage.clickSent();
-        gmailPage.assertEmailIsIn(0, subject);
+        page.assertEmail(0, subject);
 
-        gmailPage.clickInbox();
-        gmailPage.assertAnOnlyExist(subject);
+        page.clickSent();
+        page.assertEmail(0, subject);
+
+        page.clickInbox();
+        page.search(subject);
+        page.assertIsFirst(0, subject);
     }
 }
