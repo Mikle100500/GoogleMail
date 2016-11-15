@@ -1,7 +1,9 @@
 package com.google.gmail;
 
 import com.codeborne.selenide.Configuration;
-import com.google.gmail.pages.GmailPage;
+import com.google.gmail.pages.Gmail;
+import com.google.gmail.pages.Mails;
+import com.google.gmail.pages.Menu;
 import org.junit.Test;
 
 import java.util.Calendar;
@@ -15,25 +17,23 @@ public class GmailTest {
         Configuration.timeout = 20000;
     }
 
-    private GmailPage page = new GmailPage();
-
     @Test
     public void testLoginSendReceiveSearch() {
 
         String subject = String.format("Test Letter: %s", Calendar.getInstance().getTime());
 
-        page.navigateToGmail();
-        page.login(emailAddress, password);
-        page.send(emailAddress, subject);
-        page.refresh();
+        Gmail.navigateToGmail();
+        Gmail.login(emailAddress, password);
+        Mails.send(emailAddress, subject);
+        Menu.refresh();
 
-        page.assertEmail(0, subject);
+        Mails.assertEmail(0, subject);
 
-        page.clickSent();
-        page.assertEmail(0, subject);
+        Menu.clickSent();
+        Mails.assertEmail(0, subject);
 
-        page.clickInbox();
-        page.search(subject);
-        page.assertIsFirst(0, subject);
+        Menu.clickInbox();
+        Mails.search(subject);
+        Mails.assertEmails(subject);
     }
 }
