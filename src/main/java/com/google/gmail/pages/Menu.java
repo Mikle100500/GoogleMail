@@ -1,19 +1,21 @@
 package com.google.gmail.pages;
 
-import static com.codeborne.selenide.Selectors.byTitle;
-import static com.codeborne.selenide.Selenide.$;
+import org.openqa.selenium.By;
 
-public class Menu {
+public class Menu extends BasePage{
 
     public static void refresh() {
-        $(byTitle("Refresh")).click();
+
+        driver.findElement(By.cssSelector("[aria-label='Refresh']")).click();
     }
 
     public static void clickInbox() {
-        $("[title~='Inbox']").click();
+
+        driver.findElement(By.cssSelector("[title~='Inbox']")).click();
     }
 
     public static void clickSent() {
-        $(byTitle("Sent Mail")).click();
+
+        driver.findElement(By.linkText("Sent Mail")).click();
     }
 }

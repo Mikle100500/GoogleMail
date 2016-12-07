@@ -1,17 +1,19 @@
 package com.google.gmail.pages;
 
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
-
-public class Gmail {
+public class Gmail extends BasePage{
 
     public static void navigateToGmail() {
-        open("https://gmail.com");
+        driver.get("https://gmail.com");
     }
 
     public static void login(String email, String password) {
-        $("#Email").setValue(email).submit();
-        $("#Passwd").setValue(password).submit();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#Email")))
+                .sendKeys(email + Keys.ENTER);
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#Passwd")))
+                .sendKeys(password + Keys.ENTER);
     }
 }

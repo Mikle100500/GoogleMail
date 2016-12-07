@@ -1,35 +1,35 @@
 package com.google.gmail.pages;
 
-import com.codeborne.selenide.ElementsCollection;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import static com.codeborne.selenide.CollectionCondition.texts;
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$$;
+import java.util.List;
 
-public class Mails {
+public class Mails extends BasePage {
 
-    public static ElementsCollection emails = $$("[role='main'] .zA");
+    public static List<WebElement> emails = wait.until(ExpectedConditions
+            .presenceOfAllElementsLocatedBy(By.cssSelector("[role='main'] .zA")));
 
     public static void send(String email, String subject) {
 
-        $(byText("COMPOSE")).click();
-        $(By.name("to")).setValue(email);
-        $(By.name("subjectbox")).setValue(subject);
-        $(byText("Send")).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[contains(text(),'COMPOSE')]"))).click();
+        driver.findElement(By.name("to")).sendKeys(email);
+        driver.findElement(By.name("subjectbox")).sendKeys(subject);
+        driver.findElement(By.xpath("//div[contains(text(), 'Send')]")).click();
     }
 
     public static void search(String query) {
-        $(By.name("q")).setValue(query).pressEnter();
+
+        driver.findElement(By.name("q")).sendKeys(query + Keys.ENTER);
     }
 
-    public static void assertEmail(int index, String emailHeaderText) {
-        emails.get(index).shouldHave(text(emailHeaderText));
-    }
-
-    public static void assertEmails(String... emailHeaderTexts) {
-        emails.shouldHave(texts(emailHeaderTexts));
-    }
+//    public static void assertEmail(int index, String emailHeaderText) {
+//        emails.get(index).shouldHave(text(emailHeaderText));
+//    }
+//
+//    public static void assertEmails(String... emailHeaderTexts) {
+//        emails.shouldHave(texts(emailHeaderTexts));
+//    }
 }
