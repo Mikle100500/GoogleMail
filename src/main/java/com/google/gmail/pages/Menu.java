@@ -1,21 +1,21 @@
 package com.google.gmail.pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class Menu extends BasePage{
 
     public static void refresh() {
 
-        driver.findElement(By.cssSelector("[aria-label='Refresh']")).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@aria-label='Refresh']")))
+                .click();
     }
 
     public static void clickInbox() {
-
-        driver.findElement(By.cssSelector("[title~='Inbox']")).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("[title~='Inbox']"))).click();
     }
 
     public static void clickSent() {
-
-        driver.findElement(By.linkText("Sent Mail")).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.linkText("Sent Mail"))).click();
     }
 }
