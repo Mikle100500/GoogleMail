@@ -1,46 +1,34 @@
 package com.google.gmail;
 
-import com.google.gmail.pages.Gmail;
-import com.google.gmail.pages.Mails;
-import com.google.gmail.pages.Menu;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import com.google.gmail.pages.GmailPage;
 import org.junit.Test;
 
 import java.util.Calendar;
 
-import static com.google.gmail.pages.BasePage.driver;
 import static com.google.gmail.testdata.Config.emailAddress;
 import static com.google.gmail.testdata.Config.password;
+import static org.openqa.selenium.support.ui.ExpectedConditions.textToBePresentInElement;
 
-public class GmailTest {
+public class GmailTest extends BaseTest {
+
+    private GmailPage page = new GmailPage(driver);
 
     @Test
     public void testLoginSendReceiveSearch() {
 
         String subject = String.format("Test Letter: %s", Calendar.getInstance().getTime());
 
-        Gmail.navigateToGmail();
-        Gmail.login(emailAddress, password);
-        Mails.send(emailAddress, subject);
-        Menu.refresh();
-        Mails.assertEmail(0, subject);
+        page.navigateToGmail();
+        page.setLogin(emailAddress, password);
+        page.send(emailAddress, subject);
+        page.refresh();
+        page.assertTrue(textToBePresentInElement(page.firstResult, subject));
 
-        Menu.clickSent();
-        Mails.assertEmail(0, subject);
+        page.clickSent();
+        page.assertTrue(textToBePresentInElement(page.firstResult, subject));
 
-        Menu.clickInbox();
-        Mails.search(subject);
-//        Mails.assertEmails(subject);
-    }
-
-    @BeforeClass
-    public static void setUp(){
-        driver.manage().window().maximize();
-    }
-
-    @AfterClass
-    public static void tearDown(){
-        driver.quit();
+        page.clickInbox();
+        page.search(subject);
+        page.assertTrue(textToBePresentInElement(page.firstResult, subject));
     }
 }
