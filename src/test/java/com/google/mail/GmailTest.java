@@ -1,12 +1,13 @@
-package com.google.gmail;
+package com.google.mail;
 
-import com.google.gmail.pages.GmailPage;
+import com.google.mail.pages.GmailPage;
 import org.junit.Test;
 
 import java.util.Calendar;
 
-import static com.google.gmail.testdata.Config.emailAddress;
-import static com.google.gmail.testdata.Config.password;
+import static com.google.mail.core.ConciseAPI.assertThat;
+import static com.google.mail.testdata.Config.emailAddress;
+import static com.google.mail.testdata.Config.password;
 import static org.openqa.selenium.support.ui.ExpectedConditions.textToBePresentInElement;
 
 public class GmailTest extends BaseTest {
@@ -22,13 +23,13 @@ public class GmailTest extends BaseTest {
         page.setLogin(emailAddress, password);
         page.send(emailAddress, subject);
         page.refresh();
-        page.assertTrue(textToBePresentInElement(page.firstResult, subject));
+        assertThat(driver, 10, textToBePresentInElement(page.emails.get(0), subject));
 
         page.clickSent();
-        page.assertTrue(textToBePresentInElement(page.firstResult, subject));
+        assertThat(driver, 10,textToBePresentInElement(page.emails.get(0), subject));
 
         page.clickInbox();
         page.search(subject);
-        page.assertTrue(textToBePresentInElement(page.firstResult, subject));
+        assertThat(driver, textToBePresentInElement(page.emails.get(0), subject));
     }
 }
