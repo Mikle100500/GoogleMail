@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.util.Calendar;
 
+import static com.google.mail.core.ConciseAPI.$$;
 import static com.google.mail.core.ConciseAPI.assertThat;
 import static com.google.mail.testdata.Config.emailAddress;
 import static com.google.mail.testdata.Config.password;
@@ -23,13 +24,13 @@ public class GmailTest extends BaseTest {
         page.setLogin(emailAddress, password);
         page.send(emailAddress, subject);
         page.refresh();
-        assertThat(driver, 10, textToBePresentInElement(page.emails.get(0), subject));
+        assertThat(driver, textToBePresentInElement($$(driver, page.emails).get(0), subject));
 
         page.clickSent();
-        assertThat(driver, 10,textToBePresentInElement(page.emails.get(0), subject));
+        assertThat(driver,textToBePresentInElement($$(driver, page.emails).get(0), subject));
 
         page.clickInbox();
         page.search(subject);
-        assertThat(driver, textToBePresentInElement(page.emails.get(0), subject));
+        assertThat(driver, textToBePresentInElement($$(driver, page.emails).get(0), subject));
     }
 }

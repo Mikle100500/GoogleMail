@@ -9,6 +9,7 @@ import org.openqa.selenium.support.PageFactory;
 import java.util.List;
 
 import static com.google.mail.core.ConciseAPI.$;
+import static com.google.mail.core.ConciseAPI.$$;
 
 public class GmailPage {
 
