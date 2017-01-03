@@ -2,5 +2,5 @@ package com.google.mail.core;
 
 public class Configuration {
 
-    public static int timeout = 15;
+    public static int timeout = 10;
 }
