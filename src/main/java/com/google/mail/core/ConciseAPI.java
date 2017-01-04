@@ -16,12 +16,7 @@ public class ConciseAPI {
                         .visibilityOf(proxyElement));
     }
 
-    public <T> T assertThat(WebDriver driver, int timeout, ExpectedCondition<T> condition) {
-        return (new WebDriverWait(driver, timeout)).until(condition);
+    public static <T> T assertThat(WebDriver driver, ExpectedCondition<T> condition) {
+        return (new WebDriverWait(driver, Configuration.timeout)).until(condition);
     }
-
-    public <T> T assertThat(WebDriver driver, ExpectedCondition<T> condition) {
-        return assertThat(driver, Configuration.timeout, condition);
-    }
-
 }
