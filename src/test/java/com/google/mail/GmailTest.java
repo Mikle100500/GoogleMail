@@ -22,8 +22,6 @@ public class GmailTest extends BaseTest {
     public void testLoginSendReceiveSearch() {
 
         String subject = String.format("Test Letter: %s", Calendar.getInstance().getTime());
-        String subject2 = "Test Letter: ggggggggggggggggggggggggggggg";
-        String subject3 = "Test Letter: hhhhhhhhhhhhhhhhhhhhhhhhhhhhh";
 
         page.navigateToGmail();
         page.setLogin(emailAddress, password);
@@ -36,6 +34,6 @@ public class GmailTest extends BaseTest {
 
         page.clickInbox();
         page.search(subject);
-        page.assertEmails(subject, subject2, subject3);
+        page.assertEmails(subject);
     }
 }

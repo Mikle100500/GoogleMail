@@ -65,7 +65,7 @@ public class CustomConditions {
             public String toString() {
                 return String.format("\nTexts of list elements %s"
                                 + "\nshould contain: %s"
-                                + "\nwhile actual texts: %s"
+                                + "\nwhile actual texts: %s\n"
                         , elements
                         , texts
                         , actualText);
