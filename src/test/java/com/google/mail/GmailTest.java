@@ -14,33 +14,28 @@ import static com.google.mail.core.CustomConditions.texts;
 import static com.google.mail.testdata.Config.emailAddress;
 import static com.google.mail.testdata.Config.password;
 
-public class GmailTest {
+public class GmailTest extends BaseTest {
 
     private GmailPage page = new GmailPage(driver);
-
-    private static WebDriver driver = new FirefoxDriver();
 
     @Test
     public void testLoginSendReceiveSearch() {
 
         String subject = String.format("Test Letter: %s", Calendar.getInstance().getTime());
+        String subject2 = "Test Letter: ggggggggggggggggggggggggggggg";
+        String subject3 = "Test Letter: hhhhhhhhhhhhhhhhhhhhhhhhhhhhh";
 
         page.navigateToGmail();
         page.setLogin(emailAddress, password);
         page.send(emailAddress, subject);
         page.refresh();
-        assertThat(driver, nthProxyElementHasText(page.emails, 0, subject));
+        page.assertEmail(0, subject);
 
         page.clickSent();
-        assertThat(driver, nthProxyElementHasText(page.emails, 0, subject));
+        page.assertEmail(0, subject);
 
         page.clickInbox();
         page.search(subject);
-        assertThat(driver, texts(page.emails, subject));
-    }
-
-    @AfterClass
-    public void tearDown() {
-        driver.quit();
+        page.assertEmails(subject, subject2, subject3);
     }
 }

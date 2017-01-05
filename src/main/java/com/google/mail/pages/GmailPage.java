@@ -9,6 +9,9 @@ import org.openqa.selenium.support.PageFactory;
 import java.util.List;
 
 import static com.google.mail.core.ConciseAPI.$;
+import static com.google.mail.core.ConciseAPI.assertThat;
+import static com.google.mail.core.CustomConditions.nthProxyElementHasText;
+import static com.google.mail.core.CustomConditions.texts;
 
 public class GmailPage {
 
@@ -74,8 +77,8 @@ public class GmailPage {
 
         $(driver, compose).click();
         $(driver, to).sendKeys(emailAddress);
-        subject.sendKeys(subjectOfLetter);
-        send.click();
+        $(driver, subject).sendKeys(subjectOfLetter);
+        $(driver, send).click();
     }
 
     public void search(String query) {
@@ -94,4 +97,11 @@ public class GmailPage {
         $(driver, sent).click();
     }
 
+    public void assertEmail(int index, String subject) {
+        assertThat(driver, nthProxyElementHasText(emails, index, subject), 10);
+    }
+
+    public void assertEmails(String... texts) {
+        assertThat(driver, texts(emails, texts), 10);
+    }
 }

@@ -8,7 +8,9 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomConditions{
+public class CustomConditions {
+
+    private static String actualText;
 
     public static ExpectedCondition<WebElement> nthProxyElementHasText(final List<WebElement> elements
             , final int index
@@ -17,7 +19,8 @@ public class CustomConditions{
         return new ExpectedCondition<WebElement>() {
             public WebElement apply(WebDriver driver) {
                 try {
-                    return elements.get(index).getText().contains(expectedText)? elements.get(index):null;
+                    actualText = elements.get(index).getText();
+                    return actualText.contains(expectedText) ? elements.get(index) : null;
                 } catch (IndexOutOfBoundsException e) {
                     return null;
                 }
@@ -29,35 +32,43 @@ public class CustomConditions{
                                 + "\nActual text is: %s\n"
                         , index
                         , expectedText
-                        , elements.get(index).getText());
+                        , actualText);
             }
         };
     }
 
     public static ExpectedCondition<List<WebElement>> texts(final List<WebElement> elements, final String... texts) {
-        return new ExpectedCondition<List<WebElement>>(){
+        return new ExpectedCondition<List<WebElement>>() {
 
-            final List<String> proxyTexts = new ArrayList<String>();
-            final List<WebElement> returnedProxyElements = new ArrayList<WebElement>();
+            List<String> actualTexts = new ArrayList<String>();
 
             public List<WebElement> apply(WebDriver webDriver) {
 
+                actualTexts.clear();
+
                 for (WebElement proxyElement : elements) {
-                    proxyTexts.add(proxyElement.getText());
+                    actualTexts.add(proxyElement.getText());
                 }
 
-                for (int i = 0; i < proxyTexts.size(); i++) {
-                    if (proxyTexts.get(i).contains(texts[i])) {
-                        returnedProxyElements.add(elements.get(i));
+                if (actualTexts.size() != texts.length) {
+                    return null;
+                } else {
+                    for (int i = 0; i < actualTexts.size(); i++) {
+                        if (!actualTexts.get(i).contains(texts[i])) {
+                            return null;
+                        }
                     }
+                    return elements;
                 }
-
-                return elements.size() == returnedProxyElements.size() ? returnedProxyElements : null;
             }
 
-            public String toString(){
-                // TODO: 03.01.2017
-                return String.format("");
+            public String toString() {
+                return String.format("\nTexts of list elements %s"
+                                + "\nshould contain: %s"
+                                + "\nwhile actual texts: %s"
+                        , elements
+                        , texts
+                        , actualText);
             }
         };
     }
