@@ -82,6 +82,7 @@ public class GmailPage {
     }
 
     public void search(String query) {
+        $(driver, search).clear();
         $(driver, search).sendKeys(query + Keys.ENTER);
     }
 

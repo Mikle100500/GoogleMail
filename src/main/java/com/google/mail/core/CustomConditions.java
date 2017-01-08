@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class CustomConditions {
@@ -66,9 +67,9 @@ public class CustomConditions {
                 return String.format("\nTexts of list elements %s"
                                 + "\nshould contain: %s"
                                 + "\nwhile actual texts: %s\n"
-                        , elements
-                        , texts
-                        , actualText);
+                        , elements.toString()
+                        , Arrays.toString(texts)
+                        , actualTexts);
             }
         };
     }
