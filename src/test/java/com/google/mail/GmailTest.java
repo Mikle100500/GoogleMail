@@ -2,16 +2,10 @@ package com.google.mail;
 
 import com.google.mail.core.Configuration;
 import com.google.mail.pages.GmailPage;
-import org.junit.AfterClass;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 import java.util.Calendar;
 
-import static com.google.mail.core.ConciseAPI.assertThat;
-import static com.google.mail.core.CustomConditions.nthProxyElementHasText;
-import static com.google.mail.core.CustomConditions.texts;
 import static com.google.mail.testdata.Config.emailAddress;
 import static com.google.mail.testdata.Config.password;
 

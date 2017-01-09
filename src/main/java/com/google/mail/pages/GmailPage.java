@@ -1,26 +1,27 @@
 package com.google.mail.pages;
 
+import com.google.mail.core.ConciseAPI;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
 
-import static com.google.mail.core.ConciseAPI.$;
-import static com.google.mail.core.ConciseAPI.assertThat;
 import static com.google.mail.core.CustomConditions.nthProxyElementHasText;
 import static com.google.mail.core.CustomConditions.texts;
 
-public class GmailPage {
+public class GmailPage extends ConciseAPI{
 
     private WebDriver driver;
 
     public GmailPage(WebDriver driver) {
-
         this.driver = driver;
-        PageFactory.initElements(driver, this);
+    }
+
+    @Override
+    public WebDriver getDriver() {
+        return driver;
     }
 
     //    Credentials: email for logging in, password
@@ -105,4 +106,5 @@ public class GmailPage {
     public void assertEmails(String... texts) {
         assertThat(driver, texts(emails, texts));
     }
+
 }

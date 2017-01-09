@@ -1,11 +1,12 @@
 package com.google.mail;
 
+import com.google.mail.core.ConciseAPI;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-public class BaseTest {
+public class BaseTest extends ConciseAPI{
 
     static WebDriver driver;
 
@@ -17,5 +18,10 @@ public class BaseTest {
     @AfterClass
     public static void tearDown() {
         driver.quit();
+    }
+
+    @Override
+    public WebDriver getDriver() {
+        return driver;
     }
 }

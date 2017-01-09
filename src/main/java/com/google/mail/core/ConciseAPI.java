@@ -8,17 +8,19 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
 
-public class ConciseAPI {
+public abstract class ConciseAPI {
 
-    public static WebElement $(WebDriver driver, WebElement proxyElement) {
+    public abstract WebDriver getDriver();
+
+    public WebElement $(WebDriver driver, WebElement proxyElement) {
         return assertThat(driver, visibilityOf(proxyElement));
     }
 
-    public static <V> V assertThat(WebDriver driver, ExpectedCondition<V> condition, int timeout) {
+    public <V> V assertThat(WebDriver driver, ExpectedCondition<V> condition, int timeout) {
         return (new WebDriverWait(driver, timeout)).until(condition);
     }
 
-    public static <V> V assertThat(WebDriver driver, ExpectedCondition<V> condition) {
+    public <V> V assertThat(WebDriver driver, ExpectedCondition<V> condition) {
         return (new WebDriverWait(driver, Configuration.timeout)).until(condition);
     }
 }
