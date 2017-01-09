@@ -1,110 +1,60 @@
 package com.google.mail.pages;
 
-import com.google.mail.core.ConciseAPI;
+import com.google.mail.core.BasePage;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-
-import java.util.List;
 
 import static com.google.mail.core.CustomConditions.nthProxyElementHasText;
 import static com.google.mail.core.CustomConditions.texts;
 
-public class GmailPage extends ConciseAPI{
-
-    private WebDriver driver;
+public class GmailPage extends BasePage{
 
     public GmailPage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
     }
-
-    @Override
-    public WebDriver getDriver() {
-        return driver;
-    }
-
-    //    Credentials: email for logging in, password
-    @FindBy(css = "#Email")
-    WebElement loginEmail;
-
-    @FindBy(css = "#Passwd")
-    WebElement loginPassword;
-
-    //    Emails on the page
-    @FindBy(css = "[role='main'] .zA")
-    public List<WebElement> emails;
-
-    //    Compose, filling and sending a letter
-    @FindBy(xpath = "//div[contains(text(),'COMPOSE')]")
-    WebElement compose;
-
-    @FindBy(name = "to")
-    WebElement to;
-
-    @FindBy(name = "subjectbox")
-    WebElement subject;
-
-    @FindBy(xpath = "//div[contains(text(), 'Send')]")
-    WebElement send;
-
-    //  search needed letter using search field
-    @FindBy(name = "q")
-    WebElement search;
-
-    //  refresh the page
-    @FindBy(xpath = "//div[contains(@class, 'asf')]")
-    WebElement refresh;
-
-    //  location of "Inbox" button
-    @FindBy(css = "[title~='Inbox']")
-    WebElement inbox;
-
-    //  location of "Sent" button
-    @FindBy(linkText = "Sent Mail")
-    WebElement sent;
 
     public void navigateToGmail() {
-        driver.get("https://gmail.com");
+        this.getDriver().get("https://gmail.com");
     }
 
     public void setLogin(String email, String password) {
 
-        $(driver, loginEmail).sendKeys(email, Keys.ENTER);
-        $(driver, loginPassword).sendKeys(password, Keys.ENTER);
+        $(getWebElement(By.cssSelector("#Email"))).sendKeys(email, Keys.ENTER);
+        $(getWebElement(By.cssSelector("#Passwd"))).sendKeys(password, Keys.ENTER);
     }
 
     public void send(String emailAddress, String subjectOfLetter) {
 
-        $(driver, compose).click();
-        $(driver, to).sendKeys(emailAddress);
-        $(driver, subject).sendKeys(subjectOfLetter);
-        $(driver, send).click();
+        $(getWebElement(By.xpath("//div[contains(text(),'COMPOSE')]"))).click();
+        $(getWebElement(By.name("to"))).sendKeys(emailAddress);
+        $(getWebElement(By.name("subjectbox"))).sendKeys(subjectOfLetter);
+        $(getWebElement(By.xpath("//div[contains(text(), 'Send')]"))).click();
     }
 
     public void search(String query) {
-        $(driver, search).clear();
-        $(driver, search).sendKeys(query + Keys.ENTER);
+        $(getWebElement(By.name("q"))).clear();
+        $(getWebElement(By.name("q"))).sendKeys(query + Keys.ENTER);
     }
 
     public void refresh() {
-        $(driver, refresh).click();
+        $(getWebElement(By.xpath("//div[contains(@class, 'asf')]"))).click();
     }
 
     public void clickInbox() {
-        $(driver, inbox).click();
+        $(getWebElement(By.cssSelector("[title~='Inbox']"))).click();
     }
 
     public void clickSent() {
-        $(driver, sent).click();
+        $(getWebElement(By.linkText("Sent Mail"))).click();
     }
 
     public void assertEmail(int index, String subject) {
-        assertThat(driver, nthProxyElementHasText(emails, index, subject));
+        assertThat(nthProxyElementHasText(getWebElements(By.cssSelector("[role='main'] .zA")), index, subject));
     }
 
     public void assertEmails(String... texts) {
-        assertThat(driver, texts(emails, texts));
+        assertThat(texts(getWebElements(By.cssSelector("[role='main'] .zA")), texts));
     }
 
 }
