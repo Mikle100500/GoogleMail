@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.google.mail.core.Wrappers.elementExceptionsCatcher;
+
 public class CustomConditions {
 
     private static String actualText;
@@ -17,29 +19,30 @@ public class CustomConditions {
             , final int index
             , final String expectedText) {
 
-        return new ExpectedCondition<WebElement>() {
+        return elementExceptionsCatcher(new ExpectedCondition<WebElement>() {
+
             public WebElement apply(WebDriver driver) {
-                try {
-                    actualText = elements.get(index).getText();
-                    return actualText.contains(expectedText) ? elements.get(index) : null;
-                } catch (IndexOutOfBoundsException e) {
-                    return null;
-                }
+
+                WebElement element = elements.get(index);
+                actualText = element.getText();
+                return actualText.contains(expectedText) ? element : null;
             }
 
             public String toString() {
-                return String.format("\nText of %s element:"
-                                + "\nExpected text should be: %s"
+                return String.format("\nText of %s element,"
+                                + "\nof the elements %s"
+                                + "\nShould be: %s"
                                 + "\nActual text is: %s\n"
                         , index
+                        , elements.toString()
                         , expectedText
                         , actualText);
             }
-        };
+        });
     }
 
     public static ExpectedCondition<List<WebElement>> texts(final List<WebElement> elements, final String... texts) {
-        return new ExpectedCondition<List<WebElement>>() {
+        return elementExceptionsCatcher(new ExpectedCondition<List<WebElement>>() {
 
             List<String> actualTexts = new ArrayList<String>();
 
@@ -53,14 +56,14 @@ public class CustomConditions {
 
                 if (actualTexts.size() != texts.length) {
                     return null;
-                } else {
-                    for (int i = 0; i < actualTexts.size(); i++) {
-                        if (!actualTexts.get(i).contains(texts[i])) {
-                            return null;
-                        }
-                    }
-                    return elements;
                 }
+
+                for (int i = 0; i < actualTexts.size(); i++) {
+                    if (!actualTexts.get(i).contains(texts[i])) {
+                        return null;
+                    }
+                }
+                return elements;
             }
 
             public String toString() {
@@ -71,6 +74,6 @@ public class CustomConditions {
                         , Arrays.toString(texts)
                         , actualTexts);
             }
-        };
+        });
     }
 }

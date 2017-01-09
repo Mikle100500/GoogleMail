@@ -99,10 +99,10 @@ public class GmailPage {
     }
 
     public void assertEmail(int index, String subject) {
-        assertThat(driver, nthProxyElementHasText(emails, index, subject), 10);
+        assertThat(driver, nthProxyElementHasText(emails, index, subject));
     }
 
     public void assertEmails(String... texts) {
-        assertThat(driver, texts(emails, texts), 10);
+        assertThat(driver, texts(emails, texts));
     }
 }
