@@ -19,6 +19,6 @@ public class ConciseAPI {
     }
 
     public static <V> V assertThat(WebDriver driver, ExpectedCondition<V> condition) {
-        return (new WebDriverWait(driver, Configuration.timeout)).until(condition);
+        return assertThat(driver, condition,Configuration.timeout);
     }
 }
