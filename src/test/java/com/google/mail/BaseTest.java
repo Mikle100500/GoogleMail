@@ -8,7 +8,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class BaseTest extends ConciseAPI{
 
-    static WebDriver driver;
+    private static WebDriver driver;
 
     @BeforeClass
     public static void setUp() {

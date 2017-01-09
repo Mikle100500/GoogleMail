@@ -15,7 +15,7 @@ public class GmailTest extends BaseTest {
         Configuration.timeout = 10;
     }
 
-    private GmailPage page = new GmailPage(driver);
+    private GmailPage page = new GmailPage(getDriver());
 
     @Test
     public void testLoginSendReceiveSearch() {
