@@ -1,8 +1,8 @@
 package com.google.mail.core;
 
 import com.google.common.base.Function;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 
 public class Wrappers {
@@ -12,7 +12,7 @@ public class Wrappers {
             public V apply(WebDriver input) {
                 try {
                     return condition.apply(input);
-                } catch (StaleElementReferenceException | IndexOutOfBoundsException e) {
+                } catch (WebDriverException | IndexOutOfBoundsException e) {
                     return null;
                 }
             }
