@@ -1,30 +1,31 @@
 package com.google.mail.core;
 
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.util.List;
-
-import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
+import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
 public abstract class ConciseAPI {
 
     public abstract WebDriver getDriver();
 
-    public WebElement getWebElement(By locator){
-        return getDriver().findElement(locator);
+    public WebElement $(By locator) {
+        return assertThat(visibilityOfElementLocated(locator));
     }
 
-    public List<WebElement> getWebElements(By locator){
-        return getDriver().findElements(locator);
+    public WebElement $(String cssSelector) {
+        return assertThat(visibilityOfElementLocated(By.cssSelector(cssSelector)));
     }
 
-    public WebElement $(WebElement proxyElement) {
-        return assertThat(visibilityOf(proxyElement));
+    public By byText(String text) {
+        return By.xpath(String.format("//*[contains(text(), '%s')]", text));
+    }
+
+    public By byTitle(String title) {
+        return By.cssSelector(String.format("[title='%s']", title));
     }
 
     public <V> V assertThat(ExpectedCondition<V> condition, int timeout) {

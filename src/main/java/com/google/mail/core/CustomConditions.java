@@ -1,9 +1,11 @@
 package com.google.mail.core;
 
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,15 +17,17 @@ public class CustomConditions {
 
     private static String actualText;
 
-    public static ExpectedCondition<WebElement> nthProxyElementHasText(final List<WebElement> elements
+    public static ExpectedCondition<WebElement> nthProxyElementHasText(final By locator
             , final int index
             , final String expectedText) {
 
         return elementExceptionsCatcher(new ExpectedCondition<WebElement>() {
 
+            private WebElement element;
+
             public WebElement apply(WebDriver driver) {
 
-                WebElement element = elements.get(index);
+                element = driver.findElements(locator).get(index);
                 actualText = element.getText();
                 return actualText.contains(expectedText) ? element : null;
             }
@@ -34,22 +38,23 @@ public class CustomConditions {
                                 + "\nShould be: %s"
                                 + "\nActual text is: %s\n"
                         , index
-                        , elements.toString()
+                        , element.toString()
                         , expectedText
                         , actualText);
             }
         });
     }
 
-    public static ExpectedCondition<List<WebElement>> texts(final List<WebElement> elements, final String... texts) {
+    public static ExpectedCondition<List<WebElement>> texts(final By locator, final String... texts) {
         return elementExceptionsCatcher(new ExpectedCondition<List<WebElement>>() {
 
-            List<String> actualTexts = new ArrayList<String>();
+            private List<String> actualTexts = new ArrayList<String>();
+            private List<WebElement> elements;
 
-            public List<WebElement> apply(WebDriver webDriver) {
+            public List<WebElement> apply(WebDriver driver) {
 
                 actualTexts.clear();
-
+                elements = driver.findElements(locator);
                 for (WebElement proxyElement : elements) {
                     actualTexts.add(proxyElement.getText());
                 }

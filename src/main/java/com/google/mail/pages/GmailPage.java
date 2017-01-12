@@ -8,7 +8,9 @@ import org.openqa.selenium.WebDriver;
 import static com.google.mail.core.CustomConditions.nthProxyElementHasText;
 import static com.google.mail.core.CustomConditions.texts;
 
-public class GmailPage extends BasePage{
+public class GmailPage extends BasePage {
+
+    private final By elementsLocator = By.cssSelector("[role='main'] .zA");
 
     public GmailPage(WebDriver driver) {
         super(driver);
@@ -20,41 +22,40 @@ public class GmailPage extends BasePage{
 
     public void setLogin(String email, String password) {
 
-        $(getWebElement(By.cssSelector("#Email"))).sendKeys(email, Keys.ENTER);
-        $(getWebElement(By.cssSelector("#Passwd"))).sendKeys(password, Keys.ENTER);
+        $("#Email").sendKeys(email, Keys.ENTER);
+        $("#Passwd").sendKeys(password, Keys.ENTER);
     }
 
     public void send(String emailAddress, String subjectOfLetter) {
 
-        $(getWebElement(By.xpath("//div[contains(text(),'COMPOSE')]"))).click();
-        $(getWebElement(By.name("to"))).sendKeys(emailAddress);
-        $(getWebElement(By.name("subjectbox"))).sendKeys(subjectOfLetter);
-        $(getWebElement(By.xpath("//div[contains(text(), 'Send')]"))).click();
+        $(byText("COMPOSE")).click();
+        $("[name='to']").sendKeys(emailAddress);
+        $("[name='subjectbox']").sendKeys(subjectOfLetter);
+        $(byText("Send")).click();
     }
 
     public void search(String query) {
-        $(getWebElement(By.name("q"))).clear();
-        $(getWebElement(By.name("q"))).sendKeys(query + Keys.ENTER);
+        $("[name='q']").clear();
+        $("[name='q']").sendKeys(query + Keys.ENTER);
     }
 
     public void refresh() {
-        $(getWebElement(By.xpath("//div[contains(@class, 'asf')]"))).click();
+        $(".asf").click();
     }
 
     public void clickInbox() {
-        $(getWebElement(By.cssSelector("[title~='Inbox']"))).click();
+        $(byTitle("Inbox")).click();
     }
 
     public void clickSent() {
-        $(getWebElement(By.linkText("Sent Mail"))).click();
+        $(byTitle("Sent Mail")).click();
     }
 
     public void assertEmail(int index, String subject) {
-        assertThat(nthProxyElementHasText(getWebElements(By.cssSelector("[role='main'] .zA")), index, subject));
+        assertThat(nthProxyElementHasText(elementsLocator, index, subject));
     }
 
     public void assertEmails(String... texts) {
-        assertThat(texts(getWebElements(By.cssSelector("[role='main'] .zA")), texts));
+        assertThat(texts(elementsLocator, texts));
     }
-
 }

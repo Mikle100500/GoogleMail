@@ -1,11 +1,9 @@
 package com.google.mail.core;
 
-import org.openqa.selenium.ElementNotVisibleException;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-
 import com.google.common.base.Function;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 
 public class Wrappers {
     public static <V> ExpectedCondition<V> elementExceptionsCatcher(final Function<? super WebDriver, V> condition){
@@ -14,11 +12,7 @@ public class Wrappers {
             public V apply(WebDriver input) {
                 try {
                     return condition.apply(input);
-                } catch (StaleElementReferenceException e) {
-                    return null;
-                } catch (ElementNotVisibleException e){
-                    return null;
-                } catch (IndexOutOfBoundsException e){
+                } catch (WebDriverException | IndexOutOfBoundsException e) {
                     return null;
                 }
             }
