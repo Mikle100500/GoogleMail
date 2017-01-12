@@ -1,23 +1,18 @@
 package com.google.mail.pages;
 
-import com.google.mail.core.BasePage;
+import com.google.mail.core.ConciseAPI;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
 
 import static com.google.mail.core.CustomConditions.nthProxyElementHasText;
 import static com.google.mail.core.CustomConditions.texts;
 
-public class GmailPage extends BasePage {
+public class GmailPage extends ConciseAPI{
 
     private final By elementsLocator = By.cssSelector("[role='main'] .zA");
 
-    public GmailPage(WebDriver driver) {
-        super(driver);
-    }
-
     public void navigateToGmail() {
-        this.getDriver().get("https://gmail.com");
+        getDriver().get("https://gmail.com");
     }
 
     public void setLogin(String email, String password) {

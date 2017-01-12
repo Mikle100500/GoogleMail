@@ -3,14 +3,24 @@ package com.google.mail.core;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
-public abstract class ConciseAPI {
+public class ConciseAPI {
 
-    public abstract WebDriver getDriver();
+    private static WebDriver driver;
+
+    public static WebDriver getDriver(){
+        return driver;
+    }
+
+    public static void setDriver(RemoteWebDriver setDriver){
+        driver = setDriver;
+    }
+
 
     public WebElement $(By locator) {
         return assertThat(visibilityOfElementLocated(locator));
@@ -29,7 +39,7 @@ public abstract class ConciseAPI {
     }
 
     public <V> V assertThat(ExpectedCondition<V> condition, int timeout) {
-        return (new WebDriverWait(getDriver(), timeout)).until(condition);
+        return (new WebDriverWait(driver, timeout)).until(condition);
     }
 
     public <V> V assertThat(ExpectedCondition<V> condition) {
