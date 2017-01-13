@@ -13,36 +13,35 @@ public class ConciseAPI {
 
     private static WebDriver driver;
 
-    public static WebDriver getDriver(){
+    public static WebDriver getDriver() {
         return driver;
     }
 
-    public static void setDriver(RemoteWebDriver setDriver){
-        driver = setDriver;
+    public static void setDriver(WebDriver driver) {
+        ConciseAPI.driver = driver;
     }
 
-
-    public WebElement $(By locator) {
+    public static WebElement $(By locator) {
         return assertThat(visibilityOfElementLocated(locator));
     }
 
-    public WebElement $(String cssSelector) {
-        return assertThat(visibilityOfElementLocated(By.cssSelector(cssSelector)));
+    public static WebElement $(String cssSelector) {
+        return $(By.cssSelector(cssSelector));
     }
 
-    public By byText(String text) {
+    public static By byText(String text) {
         return By.xpath(String.format("//*[contains(text(), '%s')]", text));
     }
 
-    public By byTitle(String title) {
+    public static By byTitle(String title) {
         return By.cssSelector(String.format("[title='%s']", title));
     }
 
-    public <V> V assertThat(ExpectedCondition<V> condition, int timeout) {
+    public static  <V> V assertThat(ExpectedCondition<V> condition, int timeout) {
         return (new WebDriverWait(driver, timeout)).until(condition);
     }
 
-    public <V> V assertThat(ExpectedCondition<V> condition) {
+    public static  <V> V assertThat(ExpectedCondition<V> condition) {
         return assertThat(condition, Configuration.timeout);
     }
 }

@@ -15,15 +15,13 @@ import static com.google.mail.core.Wrappers.elementExceptionsCatcher;
 
 public class CustomConditions {
 
-    private static String actualText;
-
-    public static ExpectedCondition<WebElement> nthProxyElementHasText(final By locator
-            , final int index
+    public static ExpectedCondition<WebElement> nthElementHasText(final By locator, final int index
             , final String expectedText) {
 
         return elementExceptionsCatcher(new ExpectedCondition<WebElement>() {
 
             private WebElement element;
+            private String actualText;
 
             public WebElement apply(WebDriver driver) {
 
@@ -46,6 +44,7 @@ public class CustomConditions {
     }
 
     public static ExpectedCondition<List<WebElement>> texts(final By locator, final String... texts) {
+
         return elementExceptionsCatcher(new ExpectedCondition<List<WebElement>>() {
 
             private List<String> actualTexts = new ArrayList<String>();

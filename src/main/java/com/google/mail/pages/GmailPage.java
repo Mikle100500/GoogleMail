@@ -1,13 +1,13 @@
 package com.google.mail.pages;
 
-import com.google.mail.core.ConciseAPI;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 
-import static com.google.mail.core.CustomConditions.nthProxyElementHasText;
+import static com.google.mail.core.ConciseAPI.*;
+import static com.google.mail.core.CustomConditions.nthElementHasText;
 import static com.google.mail.core.CustomConditions.texts;
 
-public class GmailPage extends ConciseAPI{
+public class GmailPage {
 
     private final By elementsLocator = By.cssSelector("[role='main'] .zA");
 
@@ -47,7 +47,7 @@ public class GmailPage extends ConciseAPI{
     }
 
     public void assertEmail(int index, String subject) {
-        assertThat(nthProxyElementHasText(elementsLocator, index, subject));
+        assertThat(nthElementHasText(elementsLocator, index, subject));
     }
 
     public void assertEmails(String... texts) {
