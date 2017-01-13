@@ -17,7 +17,7 @@ public abstract class ConciseAPI {
     }
 
     public WebElement $(String cssSelector) {
-        return assertThat(visibilityOfElementLocated(By.cssSelector(cssSelector)));
+        return $(By.cssSelector(cssSelector));
     }
 
     public By byText(String text) {
