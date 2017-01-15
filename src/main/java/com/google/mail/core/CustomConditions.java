@@ -50,8 +50,8 @@ public class CustomConditions {
 
                 actualTexts.clear();
 
-                for (WebElement proxyElement : elements) {
-                    actualTexts.add(proxyElement.getText());
+                for (WebElement element : elements) {
+                    actualTexts.add(element.getText());
                 }
 
                 if (actualTexts.size() != texts.length) {
