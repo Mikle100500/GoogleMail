@@ -12,7 +12,7 @@ public class GmailPage {
     private final By elementsLocator = By.cssSelector("[role='main'] .zA");
 
     public void navigateToGmail() {
-        getDriver().get("https://gmail.com");
+        open("https://gmail.com");
     }
 
     public void setLogin(String email, String password) {

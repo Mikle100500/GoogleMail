@@ -21,6 +21,8 @@ public class ConciseAPI {
         ConciseAPI.driver = driver;
     }
 
+    public static void open(String url){ getDriver().get(url);}
+
     public static WebElement $(By locator) {
         return assertThat(visibilityOfElementLocated(locator));
     }

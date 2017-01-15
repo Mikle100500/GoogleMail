@@ -5,7 +5,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,11 +31,11 @@ public class CustomConditions {
 
             public String toString() {
                 return String.format("\nText of %s element,"
-                                + "\nof the elements %s"
+                                + "\nfound with locator - %s"
                                 + "\nShould be: %s"
                                 + "\nActual text is: %s\n"
                         , index
-                        , element.toString()
+                        , locator.toString()
                         , expectedText
                         , actualText);
             }
@@ -54,8 +53,8 @@ public class CustomConditions {
 
                 actualTexts.clear();
                 elements = driver.findElements(locator);
-                for (WebElement proxyElement : elements) {
-                    actualTexts.add(proxyElement.getText());
+                for (WebElement element : elements) {
+                    actualTexts.add(element.getText());
                 }
 
                 if (actualTexts.size() != texts.length) {
@@ -71,10 +70,10 @@ public class CustomConditions {
             }
 
             public String toString() {
-                return String.format("\nTexts of list elements %s"
+                return String.format("\nTexts of elements being found with locator - %s"
                                 + "\nshould contain: %s"
                                 + "\nwhile actual texts: %s\n"
-                        , elements.toString()
+                        , locator.toString()
                         , Arrays.toString(texts)
                         , actualTexts);
             }
